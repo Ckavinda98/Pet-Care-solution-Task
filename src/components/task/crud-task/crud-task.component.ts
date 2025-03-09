@@ -7,75 +7,71 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import {MatIconModule} from '@angular/material/icon';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../task-service.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-crud-task',
-  imports: [ReactiveFormsModule,
-            MatInputModule,
-            MatButtonModule,
-            MatDatepickerModule,
-            MatCardModule, 
-            MatNativeDateModule, 
-            MatSelectModule,
-            MatIconModule,
-            MatDialogModule,
-            CommonModule,
-            MatTooltipModule],
+  imports: [
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatCardModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatIconModule,
+    MatDialogModule,
+    CommonModule,
+    MatTooltipModule,
+  ],
   templateUrl: './crud-task.component.html',
-  styleUrl: './crud-task.component.css'
+  styleUrl: './crud-task.component.css',
 })
-
 export class CrudTaskComponent {
   taskForm!: FormGroup;
   taskData: any;
-  mode: string = "NEW";
-  header: string = "Add Task"
+  mode: string = 'NEW';
+  header: string = 'Add Task';
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     public dialogRef: MatDialogRef<CrudTaskComponent>,
-    private taskService: TaskService,
-  ) { 
-    
-  }
+    private taskService: TaskService
+  ) {}
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      dueDate: [ [Validators.required]],
+      dueDate: [[Validators.required]],
     });
-    
   }
 
   onSubmit(): void {
     if (this.taskForm.valid) {
       const task = this.taskForm.value;
-      task.dueDate = task.dueDate.toISOString();  
+      task.dueDate = task.dueDate.toISOString();
       task.isTaskCompleted = false;
       task.isDeleted = false;
 
-      if (this.mode === "EDIT") {
-        console.log("Updating task...");
-        
-        this.taskService.updateTask(this.taskData.id, task)
+      if (this.mode === 'EDIT') {
+        this.taskService
+          .updateTask(this.taskData.id, task)
           .then(() => {
-            console.log('Task Updated:', task);
             this.resetForm();
-           
-            this.dialogRef.close();   
+
+            this.dialogRef.close();
           })
           .catch((error) => {
             console.error('Error updating task:', error);
           });
       } else {
-       
-        this.taskService.addTask(task)
+        this.taskService
+          .addTask(task)
           .then((ref) => {
-            console.log('Task Added:', ref);
             this.resetForm();
             this.dialogRef.close();
           })
@@ -85,39 +81,32 @@ export class CrudTaskComponent {
       }
     }
   }
-  
-    onCancel(): void {
-      this.dialogRef.close(); 
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  resetForm() {
+    this.mode = 'NEW';
+    this.header = 'Add Task';
+    this.taskForm.reset();
+    this.taskData = {};
+  }
+
+  edit(taskData: any) {
+    this.taskData = taskData;
+    if (this.taskData) {
+      this.taskData = this.taskData;
+      this.mode = 'EDIT';
+      this.taskForm.patchValue({
+        name: this.taskData.name,
+        description: this.taskData.description,
+        dueDate: new Date(this.taskData.dueDate),
+      });
     }
 
-    resetForm(){
-      this.mode = "NEW";
-      this.header = "Add Task";
-      this.taskForm.reset();
-      this.taskData = {};  
-
+    if (this.mode == 'EDIT') {
+      this.header = 'Edit Task';
     }
-
-    
-
-    edit(taskData: any){
-      this.taskData = taskData;
-      if (this.taskData) {
-        this.taskData = this.taskData; 
-        console.log('Task data received in dialog:', this.taskData);
-        this.mode = "EDIT"
-        this.taskForm.patchValue({
-          name: this.taskData.name,
-          description: this.taskData.description,
-          dueDate: new Date(this.taskData.dueDate),  
-        });
-      }
-  
-      if(this.mode == "EDIT")
-        {
-          this.header = "Edit Task"
-        }
-    }
-
-  
+  }
 }

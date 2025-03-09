@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private afAuth: AngularFireAuth) {}
@@ -14,55 +14,45 @@ export class AuthService {
 
   signIn(email: string, password: string): Observable<any> {
     if (!email || !password) {
-      console.error('Email and password cannot be empty');
       return throwError('Email and password are required');
     }
-  
-    return from(
-      this.afAuth.signInWithEmailAndPassword(email, password)
-    ).pipe(
+
+    return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
       catchError((error) => {
-        console.error('Sign-in error:', error);
         return throwError(error);
       })
     );
   }
-  
+
   signOut(): Promise<void> {
     localStorage.removeItem('authToken');
     return this.afAuth.signOut();
   }
 
   getCurrentUser(): Observable<any> {
-    return this.afAuth.authState; 
+    return this.afAuth.authState;
   }
 
-  // getAuthToken(): Observable<string> {
-  //   return this.afAuth.idToken; 
-  // }
   getAuthToken(): Observable<string> {
     return this.afAuth.idToken.pipe(
       switchMap((token) => {
         if (token) {
           localStorage.setItem('authToken', token);
-          return [token]; 
+          return [token];
         } else {
-          
           return new Observable<string>((observer) => {
-            observer.error('User is not authenticated'); 
+            observer.error('User is not authenticated');
           });
         }
       })
     );
   }
-  
 
   getStoredAuthToken(): string | null {
     return localStorage.getItem('authToken');
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(user => !!user)); 
+    return this.afAuth.authState.pipe(map((user) => !!user));
   }
-  
 }

@@ -1,68 +1,133 @@
 <div style="margin-top: 40px">
-    <div class="example-button-row">
-      <button mat-fab aria-label="Example icon button with a delete icon" (click)="openAddTaskDialog()" matTooltip="Add New Task">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </div>
-  
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropList (cdkDropListDropped)="drop($event)">
-    
-    
-    
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Task Name </th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element.id)" style="cursor: pointer;" matTooltip="Click to Edit">
-        {{element.name}}
-      </td>
-    </ng-container>
-  
-    
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element.id)" style="cursor: pointer;" matTooltip="Click to Edit">
-        {{element.description}}
-      </td>
-    </ng-container>
-    
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element">
-        {{element.status}}
-        <button *ngIf="!element.isTaskCompleted"  mat-icon-button (click)="statusUpdate(element.id)" class="green-btn"  matTooltip="Click to mark as completed">
-          <mat-icon>check_circle</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-    
-    <ng-container matColumnDef="dueDate">
-      <th mat-header-cell *matHeaderCellDef> Due Date </th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element.id)" style="cursor: pointer;" matTooltip="Click to Edit">
-        {{element.dueDate | date}}
-      </td>
-    </ng-container>
-    
-    <ng-container matColumnDef="dragHandle">
-      <th mat-header-cell *matHeaderCellDef> Drag </th>
-      <td mat-cell *matCellDef="let element">
-        <mat-icon cdkDragHandle matTooltip="Hold to Drag">
-          drag_indicator
-        </mat-icon>
-      </td>
-    </ng-container>
+  <div class="example-button-row" style="display: flex; align-items: center">
+    <button
+      mat-fab
+      aria-label=""
+      (click)="openAddTaskDialog()"
+      matTooltip="Add New Task"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
 
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="warn" (click)="deleteTask(element.id)" class="red-btn" matTooltip="Click to Delete">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  
-    <tr mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag [cdkDragData]="row">
-    </tr>
-  </table>
-  
+    <mat-form-field
+      appearance="fill"
+      style="margin-left: 20px; display: flex; align-items: center"
+    >
+      <mat-label>Status</mat-label>
+
+      <mat-select
+        [(value)]="selectedStatus"
+        (selectionChange)="onChange($event)"
+        matTooltip="Filter By Status"
+      >
+        <mat-option value="1">Completed</mat-option>
+        <mat-option value="2">Pending</mat-option>
+      </mat-select>
+
+      <button
+        *ngIf="selectedStatus"
+        mat-icon-button
+        (click)="clearSelection()"
+        aria-label="Clear"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Task Name</th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="onRowClick(element.id)"
+      style="cursor: pointer"
+      matTooltip="Click to Edit"
+    >
+      {{ element.name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="onRowClick(element.id)"
+      style="cursor: pointer"
+      matTooltip="Click to Edit"
+    >
+      {{ element.description }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.status }}
+      <button
+        *ngIf="!element.isTaskCompleted"
+        mat-icon-button
+        (click)="statusUpdate(element.id)"
+        class="green-btn"
+        matTooltip="Click to mark as completed"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dueDate">
+    <th mat-header-cell *matHeaderCellDef>Due Date</th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="onRowClick(element.id)"
+      style="cursor: pointer"
+      matTooltip="Click to Edit"
+    >
+      {{ element.dueDate | date }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dragHandle">
+    <th mat-header-cell *matHeaderCellDef>Drag</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon cdkDragHandle matTooltip="Hold to Drag">
+        drag_indicator
+      </mat-icon>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>Delete</th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="deleteTask(element.id)"
+        class="red-btn"
+        matTooltip="Click to Delete"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    cdkDrag
+    [cdkDragData]="row"
+  ></tr>
+</table>

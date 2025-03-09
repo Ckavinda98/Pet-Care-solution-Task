@@ -1,58 +1,53 @@
-/* Style the dialog content */
 mat-dialog-content {
-    padding: 20px;
-    width: 100%;
-  }
-  
-  /* Style the form container with spacing between fields */
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* Style the action buttons (Cancel, Submit) */
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  /* Style the dialog header */
-  mat-dialog-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  mat-form-field {
-    margin-bottom: 20px;
-  }
-  
-  mat-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 15px 15px 15px;
-  }
-  
-  mat-icon-button {
-    padding: 0;
-    border: none;
-    background: transparent;
-  }
-  
-  mat-dialog-container {
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dialog-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .close-button {
-    margin-left: auto; 
-  }
-  
+  padding: 20px;
+  width: 100%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+mat-dialog-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 15px 15px 15px;
+}
+
+mat-icon-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+mat-dialog-container {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  margin-left: auto;
+}
