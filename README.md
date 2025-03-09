@@ -2,6 +2,11 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
 
+## Deploy Link
+
+https://petcaresolutiontask.web.app
+To log in to the system, check the credentials in the text file.
+
 ## Development server
 
 To start a local development server, run:
