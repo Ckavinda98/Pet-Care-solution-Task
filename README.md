@@ -5,7 +5,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 ## Deploy Link
 
 https://petcaresolutiontask.web.app
-To log in to the system, check the credentials in the text file.
+To log in to the system, check the credentials in the credentials.txt file.
 
 ## Implementation on Local
 
