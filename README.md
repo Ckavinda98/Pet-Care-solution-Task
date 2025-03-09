@@ -2,6 +2,46 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
 
+## Deploy Link
+
+https://petcaresolutiontask.web.app
+To log in to the system, check the credentials in the text file.
+
+## Implementation on Local
+
+To implement this project locally, follow the steps below:
+
+1. Clone the Repository
+
+```bash
+git clone https://github.com/Ckavinda98/Pet-Care-solution-Task.git
+```
+
+2. Navigate to the Project Folder
+
+After cloning, navigate to the project directory:
+
+```bash
+cd Pet-Care-solution-Task
+```
+3. Install Dependencies
+
+Make sure you have Node.js and npm installed. If not, download and install them from the official website.
+
+Then, run the following command to install all the required dependencies:
+
+```bash
+npm install
+```
+4. Run the Project
+
+Once all dependencies are installed, you can start the local development server with:
+
+```bash
+ng serve
+```
+
+
 ## Development server
 
 To start a local development server, run:
